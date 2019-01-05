@@ -24,6 +24,7 @@ parameters:
         - '#PHPDoc tag @throws with type PHPUnit\\Exception|Throwable is not subtype of Throwable#'
         - '#Part \$field \(array|string\) of encapsed string cannot be cast to string#'
         - '#Binary operation "\+" between array|false and array results in an error#'
+        - '#Argument of an invalid type Cake\\Datasource\\EntityInterface supplied for foreach, only iterables are supported#'
     earlyTerminatingMethodCalls:
         Cake\Console\Shell:
             - abort

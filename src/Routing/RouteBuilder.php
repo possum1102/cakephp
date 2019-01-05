@@ -888,18 +888,20 @@ class RouteBuilder
      *   Only required when $options is defined.
      * @return void
      */
-    public function plugin(string $name, $options = [], $callback = null): void
+    public function plugin(string $name, $options = [], ?callable $callback = null): void
     {
         if ($callback === null) {
             /** @var callable $callback */
             $callback = $options;
             $options = [];
         }
+
         $params = ['plugin' => $name] + $this->_params;
-        if (empty($options['path'])) {
-            $options['path'] = '/' . Inflector::dasherize($name);
+        $path = '/' . Inflector::dasherize($name);
+        if (isset($options['path'])) {
+            $path = $options['path'];
         }
-        $this->scope($options['path'], $params, $callback);
+        $this->scope($path, $params, $callback);
     }
 
     /**

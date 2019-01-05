@@ -833,7 +833,7 @@ class Router
      * @param callable|null $callback The callback to invoke that builds the prefixed routes.
      * @return void
      */
-    public static function prefix(string $name, $params = [], $callback = null): void
+    public static function prefix(string $name, $params = [], ?callable $callback = null): void
     {
         if ($callback === null) {
             /** @var callable $callback */
@@ -841,9 +841,8 @@ class Router
             $params = [];
         }
 
-        if (empty($params['path'])) {
-            $path = '/' . Inflector::dasherize($name);
-        } else {
+        $path = '/' . Inflector::dasherize($name);
+        if (isset($params['path'])) {
             $path = $params['path'];
             unset($params['path']);
         }
@@ -870,7 +869,7 @@ class Router
      *   Only required when $options is defined
      * @return void
      */
-    public static function plugin(string $name, $options = [], $callback = null): void
+    public static function plugin(string $name, $options = [], ?callable $callback = null): void
     {
         if ($callback === null) {
             /** @var callable $callback */
@@ -878,13 +877,14 @@ class Router
             $options = [];
         }
         $params = ['plugin' => $name];
-        if (empty($options['path'])) {
-            $options['path'] = '/' . Inflector::dasherize($name);
+        $path = '/' . Inflector::dasherize($name);
+        if (isset($options['path'])) {
+            $path = $options['path'];
         }
         if (isset($options['_namePrefix'])) {
             $params['_namePrefix'] = $options['_namePrefix'];
         }
-        static::scope($options['path'], $params, $callback);
+        static::scope($path, $params, $callback);
     }
 
     /**
